@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Attention Span & Focus Test</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #4F46E5;
+    --primary-hover: #4338CA;
+    --bg-color: #F3F4F6;
+    --card-bg: #FFFFFF;
+    --text-main: #111827;
+    --text-muted: #6B7280;
+    --border-color: #E5E7EB;
+    --success: #10B981;
+    --warning: #F59E0B;
+    --danger: #EF4444;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+    color: var(--text-main);
+    line-height: 1.6;
+    min-height: 100vh;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 800px;
+    background: var(--card-bg);
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    margin-top: 20px;
+    margin-bottom: 40px;
+    animation: fadeIn 0.4s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Typography */
+  h1 { font-size: 28px; font-weight: 700; margin-bottom: 5px; color: var(--text-main); }
+  h2 { font-size: 22px; font-weight: 600; margin-bottom: 15px; color: var(--text-main); }
+  h3 { font-size: 18px; font-weight: 600; margin: 25px 0 10px; color: var(--primary); }
+  p { color: var(--text-muted); margin-bottom: 15px; }
+
+  /* Buttons */
+  button {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 14px 28px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-block;
+    width: 100%;
+    max-width: 300px;
+  }
+
+  button:hover {
+    background: var(--primary-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+  }
+
+  /* Cover Page Specific */
+  .cover {
+    text-align: center;
+    padding: 60px 20px;
+  }
+  .cover img {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    margin-bottom: 20px;
+    border-radius: 50%;
+    background: #f8f9fa;
+    padding: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  }
+  .cover h3 { color: var(--text-muted); margin-top: 5px; margin-bottom: 20px; }
+  .author-tag {
+    display: inline-block;
+    background: var(--bg-color);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    margin-top: 20px;
+    margin-bottom: 30px;
+    color: var(--text-muted);
+  }
+
+  /* Theory Page Grid */
+  .theory-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+  }
+  .theory-card {
+    background: var(--bg-color);
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+  }
+  .theory-card h3 { margin-top: 0; font-size: 16px; }
+  .theory-card ul { padding-left: 20px; color: var(--text-muted); }
+
+  /* Forms and Inputs */
+  .input-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+  }
+  .input-box {
+    display: flex;
+    flex-direction: column;
+  }
+  .input-box label {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: var(--text-main);
+  }
+  input[type="text"], input[type="number"] {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: inherit;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  input[type="text"]:focus, input[type="number"]:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+  }
+
+  /* Questions & Likert Scale */
+  .section-container {
+    background: #f9fafb;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 25px;
+    margin-bottom: 30px;
+  }
+  .section-container h3 {
+    margin-top: 0;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+  }
+  .question {
+    margin-bottom: 25px;
+  }
+  .question p {
+    font-weight: 500;
+    color: var(--text-main);
+    margin-bottom: 12px;
+    font-size: 15px;
+  }
+  
+  /* Modern Likert Scale Buttons */
+  .options-group {
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+  }
+  .option-label {
+    flex: 1;
+    cursor: pointer;
+  }
+  .option-label input {
+    display: none; /* Hide default radio */
+  }
+  .option-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 44px;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    transition: all 0.2s;
+    font-weight: 600;
+    color: var(--text-muted);
+  }
+  .option-label:hover .option-text {
+    background: var(--bg-color);
+    border-color: #cbd5e1;
+  }
+  .option-label input:checked + .option-text {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(79, 70, 229, 0.2);
+  }
+
+  /* Results Section */
+  .result-container {
+    margin-top: 40px;
+    padding-top: 30px;
+    border-top: 2px dashed var(--border-color);
+    display: none;
+    animation: fadeIn 0.5s ease-out;
+  }
+  .user-info-result {
+    background: var(--bg-color);
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin-bottom: 25px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  .user-info-result span { font-weight: 600; color: var(--text-main); }
+  
+  .results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+  }
+  .result-card {
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    color: white;
+  }
+  .result-card.high { background: var(--success); }
+  .result-card.moderate { background: var(--warning); }
+  .result-card.low { background: var(--danger); }
+  
+  .result-title { font-size: 14px; font-weight: 600; opacity: 0.9; margin-bottom: 5px; }
+  .result-score { font-size: 28px; font-weight: 700; margin-bottom: 5px; }
+  .result-badge { background: rgba(255,255,255,0.2); padding: 4px 12px; border-radius: 20px; font-size: 13px; display: inline-block; font-weight: 500;}
+
+  /* Custom Modal for Validation */
+  .modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+    backdrop-filter: blur(4px);
+  }
+  .modal-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+  }
+  .modal-content {
+    background: white;
+    padding: 30px;
+    border-radius: 16px;
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+    transform: translateY(20px);
+    transition: transform 0.3s;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  }
+  .modal-overlay.active .modal-content {
+    transform: translateY(0);
+  }
+  .modal-icon {
+    width: 50px; height: 50px;
+    background: #FEE2E2;
+    color: var(--danger);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px; font-weight: bold;
+    margin: 0 auto 15px;
+  }
+  .modal-btn { margin-top: 20px; background: var(--text-main); }
+  .modal-btn:hover { background: #000; }
+
+  /* Utility classes */
+  .hidden { display: none !important; }
+  .text-center { text-align: center; }
+
+  /* Responsive adjustments */
+  @media (max-width: 600px) {
+    .container { padding: 25px 20px; }
+    .options-group { gap: 5px; }
+    .option-text { height: 40px; font-size: 14px; }
+    h1 { font-size: 24px; }
+  }
+</style>
+</head>
+
+<body>
+
+<!-- CUSTOM MODAL -->
+<div class="modal-overlay" id="customModal">
+  <div class="modal-content">
+    <div class="modal-icon">!</div>
+    <h2 id="modalTitle" style="margin-bottom: 10px; font-size: 20px;">Notice</h2>
+    <p id="modalMessage">Message goes here</p>
+    <button class="modal-btn" onclick="closeModal()">Got it</button>
+  </div>
+</div>
+
+<!-- COVER PAGE -->
+<div class="container cover" id="coverPage">
+  <img src="logo.png" alt="Logo">
+  <h1>Lovely Professional University</h1>
+  <h3>PSY294</h3>
+  <h2>Attention Span & Focus Test</h2>
+  <div class="author-tag"><b>Made by:</b> Gaurav Kumar</div>
+  <br>
+  <button onclick="startTest()">Start Assessment</button>
+</div>
+
+
+<!-- THEORY PAGE -->
+<div class="container hidden" id="theoryPage">
+  <h2 class="text-center" style="margin-bottom: 30px;">Project Explanation</h2>
+  
+  <div class="theory-grid">
+    <div class="theory-card">
+      <h3>🎯 Aim</h3>
+      <p>To assess attention span and focus in real-life situations using a structured psychological methodology.</p>
+    </div>
+    
+    <div class="theory-card">
+      <h3>🧠 Attributes Tested</h3>
+      <ul>
+        <li>Sustained Attention</li>
+        <li>Distraction Susceptibility</li>
+        <li>Task Switching</li>
+        <li>Mental Endurance</li>
+      </ul>
+    </div>
+
+    <div class="theory-card">
+      <h3>📋 Methodology</h3>
+      <p>Self-report questionnaire utilizing a 5-point Likert scale (1 = Low, 5 = High).</p>
+    </div>
+
+    <div class="theory-card">
+      <h3>📊 Standardization</h3>
+      <p>Balanced coverage and equal distribution of questions across all behavioral categories for accurate interpretation.</p>
+    </div>
+  </div>
+
+  <div class="text-center">
+    <button onclick="goToTest()">Proceed to Questionnaire</button>
+  </div>
+</div>
+
+
+<!-- TEST PAGE -->
+<div class="container hidden" id="testPage">
+  <h2 class="text-center" style="margin-bottom: 30px;">Participant Details</h2>
+
+  <div class="input-group">
+    <div class="input-box">
+      <label for="name">Full Name</label>
+      <input type="text" id="name" placeholder="Enter your name">
+    </div>
+    <div class="input-box">
+      <label for="age">Age</label>
+      <input type="number" id="age" placeholder="Enter your age">
+    </div>
+    <div class="input-box">
+      <label for="profession">Profession</label>
+      <input type="text" id="profession" placeholder="Student, Engineer, etc.">
+    </div>
+  </div>
+
+  <h2 class="text-center" style="margin: 40px 0 20px;">Questionnaire</h2>
+  <p class="text-center" style="margin-bottom: 30px;">Please rate the following statements from 1 (Strongly Disagree / Low) to 5 (Strongly Agree / High).</p>
+
+  <form id="testForm"></form>
+
+  <div class="text-center" style="margin-top: 40px;">
+    <button onclick="calculateScore()" id="submitBtn">Submit & View Results</button>
+  </div>
+
+  <div id="result" class="result-container"></div>
+</div>
+
+
+<script>
+// --- MODAL UTILITIES ---
+function showModal(title, message) {
+  document.getElementById('modalTitle').innerText = title;
+  document.getElementById('modalMessage').innerText = message;
+  document.getElementById('customModal').classList.add('active');
+}
+
+function closeModal() {
+  document.getElementById('customModal').classList.remove('active');
+}
+
+// --- FLOW CONTROL ---
+function startTest() {
+  document.getElementById("coverPage").classList.add("hidden");
+  document.getElementById("theoryPage").classList.remove("hidden");
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function goToTest() {
+  document.getElementById("theoryPage").classList.add("hidden");
+  document.getElementById("testPage").classList.remove("hidden");
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// --- QUESTIONS DATA ---
+const sections = [
+  {
+    title: "Sustained Attention",
+    questions: [
+      "I can focus for long periods",
+      "I complete tasks without distraction",
+      "I stay focused during lectures/meetings",
+      "I read without losing attention",
+      "I stay engaged in complex tasks",
+      "I rarely lose focus when working",
+      "I finish tasks properly before stopping",
+      "I follow long instructions carefully",
+      "I stay attentive during conversations",
+      "I focus well even in repetitive work",
+      "I maintain attention till the task ends",
+      "I can concentrate even in boring tasks",
+      "I stay mentally present while working",
+      "I rarely zone out during work",
+      "I can sustain focus for hours"
+    ]
+  },
+  {
+    title: "Distraction Susceptibility",
+    questions: [
+      "I get distracted by my phone easily",
+      "I check social media while working",
+      "I lose focus due to background noise",
+      "I get distracted by my own thoughts",
+      "I cannot ignore minor interruptions",
+      "I lose focus quickly when bored",
+      "I get distracted by people around me",
+      "I am easily pulled away from my main task",
+      "I lose concentration when hungry or tired",
+      "I get distracted more often than others",
+      "I get distracted by notifications",
+      "I struggle to ignore surrounding noise",
+      "I lose track of what I was doing",
+      "I find it hard to block distractions",
+      "I get distracted even during important work"
+    ]
+  },
+  {
+    title: "Task Switching",
+    questions: [
+      "I switch tasks frequently before finishing",
+      "I try to multitask a lot",
+      "I start new tasks before completing old ones",
+      "I get bored quickly with one task",
+      "I open multiple browser tabs and lose track",
+      "I jump between different projects",
+      "I unnecessarily interrupt my own work",
+      "I prefer multitasking over deep focus",
+      "I find it hard to stick to just one task",
+      "I change my focus of attention very often",
+      "I switch tasks when things get difficult",
+      "I leave tasks unfinished",
+      "I jump to new work frequently",
+      "I find it hard to stay on one task",
+      "I keep changing tasks unnecessarily"
+    ]
+  },
+  {
+    title: "Mental Endurance",
+    questions: [
+      "I can work productively for long hours",
+      "I maintain high output throughout the day",
+      "I can still focus even when I'm feeling tired",
+      "I handle mentally tough tasks well",
+      "I maintain steady mental energy",
+      "I stay completely focused during long exams",
+      "I can push through difficult mental work",
+      "I do not give up easily on hard problems",
+      "I recover my focus quickly after a break",
+      "I feel mentally strong and resilient",
+      "I can concentrate even when exhausted",
+      "I stay productive for long durations",
+      "I maintain performance under pressure",
+      "I do not feel mentally drained quickly",
+      "I can work consistently without losing focus"
+    ]
+  }
+];
+
+// --- RENDER QUESTIONS ---
+const form = document.getElementById("testForm");
+
+sections.forEach((sec, sIndex) => {
+  const secDiv = document.createElement("div");
+  secDiv.className = "section-container";
+  secDiv.innerHTML = `<h3>${sec.title}</h3>`;
+
+  sec.questions.forEach((q, qIndex) => {
+    const index = `s${sIndex}q${qIndex}`;
+    const div = document.createElement("div");
+    div.className = "question";
+    
+    // Build the Likert Scale UI
+    let optionsHTML = '<div class="options-group">';
+    for (let i = 1; i <= 5; i++) {
+      optionsHTML += `
+        <label class="option-label">
+          <input type="radio" name="${index}" value="${i}">
+          <span class="option-text">${i}</span>
+        </label>
+      `;
+    }
+    optionsHTML += '</div>';
+
+    div.innerHTML = `<p>${qIndex + 1}. ${q}</p>${optionsHTML}`;
+    secDiv.appendChild(div);
+  });
+
+  form.appendChild(secDiv);
+});
+
+// --- LOGIC & RESULTS ---
+function interpret(score) {
+  if (score <= 25) return "Low";
+  if (score <= 40) return "Moderate";
+  return "High";
+}
+
+function calculateScore() {
+  const name = document.getElementById("name").value.trim();
+  const age = document.getElementById("age").value.trim();
+  const profession = document.getElementById("profession").value.trim();
+
+  // Validation: User Details
+  if (!name || !age || !profession) {
+    showModal("Missing Details", "Please fill in your Name, Age, and Profession before submitting.");
+    return;
+  }
+
+  let finalHTML = `
+    <h2 class="text-center">Assessment Results</h2>
+    <div class="user-info-result">
+      <div>Name: <span>${name}</span></div>
+      <div>Age: <span>${age}</span></div>
+      <div>Profession: <span>${profession}</span></div>
+    </div>
+    <div class="results-grid">
+  `;
+
+  let hasUnanswered = false;
+
+  // Calculate scores
+  sections.forEach((sec, sIndex) => {
+    let score = 0;
+    
+    sec.questions.forEach((q, qIndex) => {
+      let selected = document.querySelector(`input[name="s${sIndex}q${qIndex}"]:checked`);
+      if (!selected) {
+        hasUnanswered = true;
+      } else {
+        score += parseInt(selected.value);
+      }
+    });
+
+    if (!hasUnanswered) {
+      // Note: For Distraction & Task Switching, higher score might traditionally mean WORSE focus. 
+      // Assuming your original logic where Higher Score = Better focus overall, 
+      // we keep the simple addition, but stylize based on the interpretation function.
+      let interpretation = interpret(score);
+      let cardClass = interpretation.toLowerCase(); // 'low', 'moderate', 'high'
+      
+      finalHTML += `
+        <div class="result-card ${cardClass}">
+          <div class="result-title">${sec.title}</div>
+          <div class="result-score">${score} / 50</div>
+          <div class="result-badge">${interpretation} Level</div>
+        </div>
+      `;
+    }
+  });
+
+  finalHTML += `</div>`;
+
+  // Validation: Missing Answers
+  if (hasUnanswered) {
+    showModal("Incomplete Test", "Please answer all questions in the assessment to get your accurate results.");
+    return;
+  }
+
+  // Display Results
+  const resultDiv = document.getElementById("result");
+  resultDiv.innerHTML = finalHTML;
+  resultDiv.style.display = "block";
+  
+  // Hide submit button to prevent duplicate submissions, or change its text
+  document.getElementById("submitBtn").innerText = "Retake Assessment";
+  document.getElementById("submitBtn").onclick = () => location.reload();
+
+  // Scroll smoothly to results
+  setTimeout(() => {
+    resultDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 100);
+}
+</script>
+
+</body>
+</html>
